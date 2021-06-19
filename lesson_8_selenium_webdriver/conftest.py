@@ -9,7 +9,7 @@ def pytest_addoption(parser):
     parser.addoption("--maximized", action="store_true", help="Maximize browser windows")
     parser.addoption("--headless", action="store_true", help="Run headless")
     parser.addoption("--browser", action="store", choices=["chrome", "firefox", "edge"], default="chrome")
-    parser.addoption("--dir", action="store", default="d:\services\webdrivers",
+    parser.addoption("--dir", action="store", default="d:\\services\\webdrivers",
                      help="Path to directory where webdrivers stored")
     parser.addoption("--url", action="store", default="http://127.0.0.1",
                      help="base URL of Opencart app")
@@ -29,6 +29,8 @@ def browser(request):
 
         options = webdriver.ChromeOptions()
         options.headless = headless
+        options.add_argument('--ignore-ssl-errors=yes')
+        options.add_argument('--ignore-certificate-errors')
 
         driver = webdriver.Chrome(
             options=options,
@@ -40,6 +42,8 @@ def browser(request):
 
         options = webdriver.FirefoxOptions()
         options.headless = headless
+        options.add_argument('--ignore-ssl-errors=yes')
+        options.add_argument('--ignore-certificate-errors')
 
         driver = webdriver.Firefox(
             options=options,
@@ -52,6 +56,8 @@ def browser(request):
         options = EdgeOptions()
         options.use_chromium = True
         options.headless = headless
+        options.add_argument('--ignore-ssl-errors=yes')
+        options.add_argument('--ignore-certificate-errors')
 
         driver = Edge(
             options=options,
@@ -69,7 +75,3 @@ def browser(request):
 
     return driver
 
-
-# @pytest.fixture(scope="session")
-# def base_url(request):
-#     return request.config.getoption("--url")
