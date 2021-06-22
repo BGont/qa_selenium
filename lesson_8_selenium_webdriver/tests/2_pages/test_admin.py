@@ -1,3 +1,4 @@
+import allure
 import pytest
 from page_objects import AdminPage, AdminLoginPage
 
@@ -19,6 +20,7 @@ def unregistered_user_email():
     return "test@test.test"
 
 
+@allure.title("Проверка страницы входа с административными правами")
 def test_admin_login_page(admin_page_browser):
     AdminLoginPage(admin_page_browser) \
         .verify_log_in_invitation() \
@@ -28,6 +30,7 @@ def test_admin_login_page(admin_page_browser):
         .verify_login_button()
 
 
+@allure.title("Проверка перехода в административный каталог продуктов")
 def test_admin_products(admin_page_browser, admin_credentials):
     AdminLoginPage(admin_page_browser) \
         .login_user(*admin_credentials) \
@@ -37,6 +40,7 @@ def test_admin_products(admin_page_browser, admin_credentials):
     AdminPage(admin_page_browser).logout()
 
 
+@allure.title("Проверка восстановления пароля незарегистрированного пользователя")
 def test_restore_password(admin_page_browser, unregistered_user_email):
     password_restore_page = AdminLoginPage(admin_page_browser).click_forgotten_password()
     password_restore_page. \
